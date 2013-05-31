@@ -70,6 +70,10 @@ describe("Run tests", function(){
         expect(gof.processCell(1, 0)).toBe('.');
     });
 
-
-
+    it("It should be possible to set custom marker for dead and live cells", function(){
+        gof.field = ['_+_', '++_', '___', '___'];
+        gof.deadCell = '_';
+        gof.liveCell = '+';
+        expect(gof.processCell(0, 0)).toBe('+');
+    });
 });

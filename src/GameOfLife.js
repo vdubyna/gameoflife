@@ -2,6 +2,8 @@ var GameOfLife = {
     field: [],
     yLength: 0,
     xLength: 0,
+    liveCell: '*',
+    deadCell: '.',
     initField: function (field) {
         this.field = field;
         this.xLength = field[0].length;
@@ -23,11 +25,11 @@ var GameOfLife = {
         var neighbours = this.countNeighbours(x, y);
 
         if (neighbours == 3) {
-            cell = '*';
+            cell = this.liveCell;
         }
 
         if (neighbours > 3 || neighbours < 2) {
-            cell = '.';
+            cell = this.deadCell;
         }
 
         return cell;
@@ -46,7 +48,7 @@ var GameOfLife = {
                 findNeighbours(xC).map(function(xItem) {
                     if (xItem >= 0
                         && xItem < this.xLength
-                        && this.field[yItem][xItem] == '*'
+                        && this.field[yItem][xItem] == this.liveCell
                         && ''+yItem+xItem != ''+yC+xC
                     ) {
                         neighbours++;
