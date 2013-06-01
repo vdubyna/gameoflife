@@ -4,6 +4,8 @@ var GameOfLife = {
     xLength: 0,
     liveCell: '*',
     deadCell: '.',
+    neighboursToBorn: 3,
+    neighboursToLive: 2,
     initField: function (field) {
         this.field = field;
         this.xLength = field[0].length;
@@ -24,11 +26,11 @@ var GameOfLife = {
         var cell = this.field[y][x];
         var neighbours = this.countNeighbours(x, y);
 
-        if (neighbours == 3) {
+        if (neighbours == this.neighboursToBorn) {
             cell = this.liveCell;
         }
 
-        if (neighbours > 3 || neighbours < 2) {
+        if (neighbours > this.neighboursToBorn || neighbours < this.neighboursToLive) {
             cell = this.deadCell;
         }
 
@@ -46,11 +48,14 @@ var GameOfLife = {
         findNeighbours(yC).map(function(yItem){
             if (yItem >= 0 && yItem < this.yLength) {
                 findNeighbours(xC).map(function(xItem) {
-                    if (xItem >= 0
-                        && xItem < this.xLength
-                        && this.field[yItem][xItem] == this.liveCell
-                        && ''+yItem+xItem != ''+yC+xC
-                    ) {
+                    var isNeighbourExist = function () {
+                        return (xItem >= 0
+                            && xItem < this.xLength
+                            && this.field[yItem][xItem] == this.liveCell
+                        && ''+yItem+xItem != ''+yC+xC);
+                    }.bind(this);
+
+                    if (isNeighbourExist()) {
                         neighbours++;
                     }
                 }, this);
